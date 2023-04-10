@@ -38,7 +38,20 @@
     font-size: 18px;
 }
 
+.update-item {
+    position: absolute;
+    right: 35px;
+    top: 12px;
+    color: blue;
+    font-size: 18px;
+}
+
 .delete-item:hover {
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.update-item:hover {
     font-weight: bold;
     cursor: pointer;
 }

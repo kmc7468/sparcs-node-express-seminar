@@ -23,7 +23,7 @@ const FeedPage = (props: {}) => {
     };
     asyncFun().catch((e) => window.alert(`Error while running API Call: ${e}`));
     return () => { BComponentExited = true; }
-  }, [ NPostCount ]);
+  }, [ NPostCount, LAPIResponse ]);
 
   const createNewPost = () => {
     const asyncFun = async () => {
@@ -44,6 +44,37 @@ const FeedPage = (props: {}) => {
     asyncFun().catch(e => window.alert(`AN ERROR OCCURED! ${e}`));
   }
 
+  const updatePost = (id: string) => {
+    let newTitle = prompt('Enter new title name', '');
+    if (newTitle === "") {
+      alert("Title cannot be empty.");
+      return;
+    } else if (newTitle === null) return;
+
+    let newContent = prompt('Enter new content name', '');
+    if (newContent === "") {
+      alert("Content cannot be empty.");
+      return;
+    } else if (newContent === null) return;
+
+    const asyncFunc = async () => {
+      await axios.post( SAPIBase + '/feed/updateFeed', { id: id, newTitle: newTitle, newContent: newContent });
+      
+      const data = LAPIResponse;
+      const idInteger = parseInt(id);
+
+      if (newTitle !== null) {
+        data[idInteger].title = newTitle;
+      }
+      if (newContent !== null) {
+        data[idInteger].content = newContent;
+      }
+
+      setLAPIResponse(data);
+    };
+    asyncFunc().catch(e => window.alert(`AN ERROR OCCURED! ${e}`));
+  }
+
   return (
     <div className="Feed">
       <Header/>
@@ -57,6 +88,7 @@ const FeedPage = (props: {}) => {
       <div className={"feed-list"}>
         { LAPIResponse.map( (val, i) =>
           <div key={i} className={"feed-item"}>
+            <div className={"update-item"} onClick={(e) => updatePost(`${val.id}`)}>ⓔ</div>
             <div className={"delete-item"} onClick={(e) => deletePost(`${val.id}`)}>ⓧ</div>
             <h3 className={"feed-title"}>{ val.title }</h3>
             <p className={"feed-body"}>{ val.content }</p>
