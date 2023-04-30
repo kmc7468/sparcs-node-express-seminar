@@ -30,7 +30,7 @@ const AccountPage = () => {
 
     const asyncFun = async() => {
       interface IAPIResponse { balance: number };
-      const { data } = await axios.post<IAPIResponse>(SAPIBase + '/account/getInfo', { username: Username, password: Password, register: true });
+      const { data } = await axios.post<IAPIResponse>(SAPIBase + '/account/register', { username: Username, password: Password, register: true });
       setNBalance(data.balance);
     }
     asyncFun().catch((e) => window.alert(`AN ERROR OCCURED: ${e}`));
