@@ -62,13 +62,13 @@ const FeedPage = (props: {}) => {
       await axios.post( SAPIBase + '/feed/updateFeed', { id: id, newTitle: newTitle, newContent: newContent });
       
       const data = LAPIResponse;
-      const idInteger = parseInt(id);
+      const feed = data.find(e => e._id === id);
 
-      if (newTitle !== null) {
-        data[idInteger].title = newTitle;
+      if (feed !== undefined && newTitle !== null) {
+        feed.title = newTitle;
       }
-      if (newContent !== null) {
-        data[idInteger].content = newContent;
+      if (feed !== undefined && newContent !== null) {
+        feed.content = newContent;
       }
 
       setLAPIResponse(data);
